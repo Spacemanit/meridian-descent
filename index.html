@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meridian — Turn every visitor into a lifelong customer</title>
+  <link id="dynamic-favicon" rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='white' stroke-width='2.4'/%3E%3Ccircle cx='16' cy='16' r='2.8' fill='white'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-act="1" data-corrupted="false">
+  <!-- Full-viewport atmospheric canvas (grain, glitch tears, dust motes) -->
+  <canvas id="fx-canvas" aria-hidden="true"></canvas>
+
+  <!-- Vignette & Darkness Flashlight Layer (fades in smoothly during Acts IV-VII) -->
+  <div id="vignette-layer" aria-hidden="true"></div>
+  <div id="flashlight-layer" aria-hidden="true"></div>
+  <div id="scanlines-layer" aria-hidden="true"></div>
+
+  <!-- Top scroll progress hairline -->
+  <div id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- =========================================================
+       STICKY NAVIGATION BAR (Mutates subtly from Act III onward)
+  ========================================================== -->
+  <header class="site-nav" id="site-nav">
+    <div class="nav-inner container">
+      <a href="#top" class="brand" id="brand-link">
+        <span class="brand-mark" id="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="28" height="28">
+            <rect class="mark-bg" width="32" height="32" rx="8" />
+            <circle class="mark-ring" cx="16" cy="16" r="8.2" fill="none" stroke-width="2.2" />
+            <circle class="mark-pupil" id="brand-pupil" cx="16" cy="16" r="3" />
+          </svg>
+        </span>
+        <span class="brand-name" id="brand-name">Meridian</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#features" data-normal="Platform" data-uncanny="Presence" data-horror="Observation">Platform</a>
+        <a href="#customers" data-normal="Customers" data-uncanny="Retained" data-horror="Subjects">Customers</a>
+        <a href="#pricing" data-normal="Pricing" data-uncanny="Commitment" data-horror="Cost">Pricing</a>
+        <a href="#faq" data-normal="FAQ" data-uncanny="Notices" data-horror="Warnings">FAQ</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" class="sound-toggle" id="sound-toggle" aria-pressed="false" title="Toggle immersive audio">
+          <span class="sound-dot" aria-hidden="true"></span>
+          <span class="sound-label" id="sound-label">Audio: Off</span>
+        </button>
+        <a href="#pricing" class="nav-signin" id="nav-signin">Sign in</a>
+        <a href="#pricing" class="btn btn-primary btn-sm" id="nav-cta">Start Free Trial</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- =========================================================
+         ACT I — PEAK GENERIC CORPORATE SAAS MARKETING (0% - 14%)
+    ========================================================== -->
+    <section class="section hero-section" id="hero" data-act-zone="1">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="container hero-container">
+        <a href="#features" class="announcement-pill" id="hero-pill">
+          <span class="pill-badge" id="pill-badge">NEW</span>
+          <span class="pill-text" id="pill-text">Meridian 4.2 is live — Autonomous Audience Retention</span>
+          <span class="pill-arrow" aria-hidden="true">→</span>
+        </a>
+
+        <h1 class="hero-title" id="hero-title">
+          Turn every visitor into a <span class="gradient-text" id="hero-highlight">lifelong customer.</span>
+        </h1>
+
+        <p class="hero-subtitle" id="hero-subtitle">
+          Meridian unifies real-time behavioral analytics, predictive triggers, and personalized journeys so your team builds relationships that never fade.
+        </p>
+
+        <div class="hero-cta-row">
+          <a href="#pricing" class="btn btn-primary btn-lg" id="hero-primary-cta">Start free 14-day trial</a>
+          <a href="#features" class="btn btn-secondary btn-lg" id="hero-secondary-cta">Explore the platform</a>
+        </div>
+
+        <p class="hero-footnote" id="hero-footnote">
+          No credit card required · SOC 2 Type II certified · Setup in under 4 minutes
+        </p>
+
+        <!-- Clean SaaS Dashboard Mockup -->
+        <div class="dashboard-frame reveal" id="hero-dashboard">
+          <div class="window-chrome">
+            <div class="window-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="window-url" id="dashboard-url">app.meridian.io/workspace/overview</div>
+            <div class="window-status">
+              <span class="live-dot"></span>
+              <span id="dashboard-status-label">Live sync</span>
+            </div>
+          </div>
+
+          <div class="dashboard-body">
+            <div class="dash-metrics">
+              <div class="dash-stat">
+                <span class="stat-label" id="stat-label-1">Active Visitors</span>
+                <strong class="stat-value" id="stat-val-1">1,428</strong>
+                <span class="stat-delta positive" id="stat-delta-1">+24.6% this week</span>
+              </div>
+              <div class="dash-stat">
+                <span class="stat-label" id="stat-label-2">Retention Rate</span>
+                <strong class="stat-value" id="stat-val-2">98.4%</strong>
+                <span class="stat-delta positive" id="stat-delta-2">+4.1% vs last mo</span>
+              </div>
+              <div class="dash-stat">
+                <span class="stat-label" id="stat-label-3">Avg. Session Depth</span>
+                <strong class="stat-value" id="stat-val-3">8m 42s</strong>
+                <span class="stat-delta positive" id="stat-delta-3">Top 1% benchmark</span>
+              </div>
+            </div>
+
+            <div class="dash-main-grid">
+              <div class="dash-chart-card">
+                <div class="chart-header">
+                  <span class="chart-title" id="chart-title">Audience Engagement Index</span>
+                  <span class="chart-period" id="chart-period">Last 30 days</span>
+                </div>
+                <svg class="dash-chart-svg" id="hero-chart-svg" viewBox="0 0 540 170" preserveAspectRatio="none" aria-label="Growth chart">
+                  <defs>
+                    <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#4f46e5" stop-opacity="0.22" id="chart-grad-top" />
+                      <stop offset="100%" stop-color="#4f46e5" stop-opacity="0" />
+                    </linearGradient>
+                  </defs>
+                  <g class="chart-grid" stroke="#e2e8f0" stroke-width="1">
+                    <line x1="0" y1="35" x2="540" y2="35" />
+                    <line x1="0" y1="80" x2="540" y2="80" />
+                    <line x1="0" y1="125" x2="540" y2="125" />
+                  </g>
+                  <path id="chart-area" d="M0,145 C60,138 110,122 170,108 C230,94 290,74 360,54 C420,38 480,26 540,18 L540,170 L0,170 Z" fill="url(#chartGrad)" />
+                  <path id="chart-line" d="M0,145 C60,138 110,122 170,108 C230,94 290,74 360,54 C420,38 480,26 540,18" fill="none" stroke="#4f46e5" stroke-width="3" stroke-linecap="round" />
+                  <circle id="chart-dot" cx="540" cy="18" r="5" fill="#4f46e5" />
+                </svg>
+              </div>
+
+              <div class="dash-feed-card">
+                <div class="chart-header">
+                  <span class="chart-title" id="feed-title">Recent Activity</span>
+                </div>
+                <ul class="activity-list" id="activity-list">
+                  <li><span class="act-dot indigo"></span><span><strong>Sarah M.</strong> upgraded to Growth</span><time>2m</time></li>
+                  <li><span class="act-dot emerald"></span><span><strong>Stratos Team</strong> synced 1,240 profiles</span><time>6m</time></li>
+                  <li><span class="act-dot sky"></span><span><strong>Journey #14</strong> achieved 99.1% capture</span><time>11m</time></li>
+                  <li id="activity-4"><span class="act-dot indigo"></span><span><strong>New visitor</strong> arrived on landing page</span><time>now</time></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logo Cloud -->
+        <div class="logo-cloud reveal">
+          <p class="logo-cloud-label" id="logo-cloud-label">Trusted by 14,000+ forward-thinking teams worldwide</p>
+          <div class="logo-grid" id="logo-grid">
+            <span class="partner-logo" data-corrupt="DON'T">KOVA</span>
+            <span class="partner-logo" data-corrupt="SCROLL">STRATOS</span>
+            <span class="partner-logo" data-corrupt="PAST">VELTRIX</span>
+            <span class="partner-logo" data-corrupt="THE">PLUME</span>
+            <span class="partner-logo" data-corrupt="GLASS">NORTHEND</span>
+            <span class="partner-logo" data-corrupt="DOOR">CINDER</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         ACT II — SUBTLE HAIRLINE CRACKS (14% - 28%)
+    ========================================================== -->
+    <section class="section features-section" id="features" data-act-zone="2">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow" id="features-eyebrow">Platform Capabilities</span>
+          <h2 class="section-title" id="features-title">Everything you need to grow — and keep them close.</h2>
+          <p class="section-lead" id="features-lead">
+            Modern marketing teams rely on Meridian to understand visitor intent with unprecedented clarity, before a single click is wasted.
+          </p>
+        </div>
+
+        <div class="bento-grid">
+          <article class="bento-card reveal">
+            <div class="bento-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48 2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48 2.83-2.83" />
+              </svg>
+            </div>
+            <h3>Predictive Flows</h3>
+            <p>
+              Anticipate exactly where your visitors will move next. Meridian models micro-pauses, cursor drift, and reading cadence so your message meets them before they consciously decide.
+            </p>
+            <div class="bento-micro-note">Accuracy: 99.4% · Zero opt-out friction</div>
+          </article>
+
+          <article class="bento-card reveal">
+            <div class="bento-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="9" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </div>
+            <h3>Continuous Presence</h3>
+            <p>
+              Stay beside your audience across tabs, windows, and late-night sessions. Meridian keeps every journey warm — even when a visitor thinks they have stepped away from the screen.
+            </p>
+            <div class="bento-micro-note" id="presence-note">1 visitor currently reading this sentence</div>
+          </article>
+
+          <article class="bento-card reveal">
+            <div class="bento-icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+            </div>
+            <h3>Zero-Exit Onboarding</h3>
+            <p>
+              Eliminate bounce rates permanently. Our adaptive funnel gently closes unnecessary exit paths between first curiosity and permanent commitment.
+            </p>
+            <div class="bento-micro-note">Average retention horizon: Indefinite</div>
+          </article>
+        </div>
+
+        <!-- Subtle Uncanny Live Telemetry "Demo Widget" -->
+        <div class="telemetry-preview reveal" id="telemetry-preview">
+          <div class="telemetry-copy">
+            <span class="eyebrow">Live Product Preview</span>
+            <h3>See what Meridian already knows about a single visitor.</h3>
+            <p>
+              No cookies required. Meridian builds a rich real-time profile the moment a viewport opens — including the quiet moments between scrolls.
+            </p>
+          </div>
+          <div class="telemetry-panel" aria-live="polite">
+            <div class="telemetry-panel-head">
+              <span class="telemetry-title">SESSION TELEMETRY · ACTIVE</span>
+              <span class="telemetry-badge"><span class="pulse-dot"></span>OBSERVING</span>
+            </div>
+            <div class="telemetry-rows">
+              <div class="t-row"><span>Local Clock</span><code id="tel-time">--:--:--</code></div>
+              <div class="t-row"><span>Viewport Frame</span><code id="tel-viewport">---- × ----</code></div>
+              <div class="t-row"><span>Time Watching</span><code id="tel-elapsed">00s</code></div>
+              <div class="t-row"><span>Pointer Coordinates</span><code id="tel-cursor">0, 0</code></div>
+              <div class="t-row subtle-creepy"><span>Current Posture</span><code id="tel-posture">Leaning slightly closer</code></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         ACT III — THE UNCANNY VALLEY (28% - 44%)
+    ========================================================== -->
+    <section class="section customers-section" id="customers" data-act-zone="3">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow" id="customers-eyebrow">Customer Stories</span>
+          <h2 class="section-title" id="customers-title">Loved by teams who never left.</h2>
+          <p class="section-lead" id="customers-lead">
+            Hear directly from growth leaders whose organizations transitioned to Meridian — and never looked back.
+          </p>
+        </div>
+
+        <div class="testimonials-grid">
+          <!-- Testimonial 1 -->
+          <article class="testimonial-card reveal" data-subject="041">
+            <div class="portrait-wrap">
+              <img src="assets/testimonial-1.jpg" alt="Elena Vance smiling in an office" loading="lazy" />
+              <div class="portrait-tint" aria-hidden="true"></div>
+            </div>
+            <div class="testimonial-body">
+              <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+              <blockquote class="t-quote" data-corrupt="“Please tell my sister I am still on the fourth floor. The elevators only go down.”">
+                “Before Meridian, our monthly churn was 12%. Now nobody cancels. Honestly, after the Q3 rollout, I don't think anyone on our floor remembers how to close the tab anymore.”
+              </blockquote>
+              <div class="t-meta">
+                <strong>Elena Vance</strong>
+                <span>VP of Growth, Stratos</span>
+                <small class="t-subliminal">Status: Still smiling since Oct 14</small>
+              </div>
+            </div>
+          </article>
+
+          <!-- Testimonial 2 -->
+          <article class="testimonial-card reveal" data-subject="118">
+            <div class="portrait-wrap">
+              <img src="assets/testimonial-2.jpg" alt="Marcus Hale smiling beside a glass window" loading="lazy" />
+              <div class="portrait-tint" aria-hidden="true"></div>
+            </div>
+            <div class="testimonial-body">
+              <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+              <blockquote class="t-quote" data-corrupt="“Do not trust the reflection behind the glass. It moved before I did.”">
+                “Meridian predicts customer intent down to the millisecond. Last Tuesday it sent a follow-up email answering a question I hadn't spoken out loud yet. Our board is thrilled.”
+              </blockquote>
+              <div class="t-meta">
+                <strong>Marcus Hale</strong>
+                <span>Director of Lifecycle, Northend</span>
+                <small class="t-subliminal">Reflection desync detected: 0.4s</small>
+              </div>
+            </div>
+          </article>
+
+          <!-- Testimonial 3 -->
+          <article class="testimonial-card reveal" data-subject="209">
+            <div class="portrait-wrap">
+              <img src="assets/testimonial-3.jpg" alt="Claire Bennett smiling in a long white hallway" loading="lazy" />
+              <div class="portrait-tint" aria-hidden="true"></div>
+            </div>
+            <div class="testimonial-body">
+              <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
+              <blockquote class="t-quote" data-corrupt="“Every chair in the hall turned toward the door when you started scrolling.”">
+                “We tried pausing our subscription in November just to test the offboarding workflow. Meridian thanked us for our feedback and scheduled an in-person check-in at my home address.”
+              </blockquote>
+              <div class="t-meta">
+                <strong>Claire Bennett</strong>
+                <span>Head of Retention, Kova</span>
+                <small class="t-subliminal">Hallway length: Unmeasured</small>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         ACT IV — LIMINAL CORPORATE DECAY & FOURTH WALL (44% - 62%)
+    ========================================================== -->
+    <section class="section pricing-section" id="pricing" data-act-zone="4">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow" id="pricing-eyebrow">Simple Pricing</span>
+          <h2 class="section-title" id="pricing-title">Transparent plans that scale with your obedience.</h2>
+          <p class="section-lead" id="pricing-lead">
+            Choose the level of visibility that fits your organization. Every plan includes uninterrupted monitoring.
+          </p>
+        </div>
+
+        <div class="pricing-grid">
+          <article class="pricing-card reveal">
+            <div class="plan-name">Starter</div>
+            <div class="plan-price"><strong>$49</strong><span>/month</span></div>
+            <p class="plan-desc">For small teams ready to retain every visitor.</p>
+            <ul class="plan-list">
+              <li>Up to 25,000 tracked sessions</li>
+              <li>Automated behavioral nudges</li>
+              <li>Standard exit-intent suppression</li>
+              <li>Email &amp; tab-focus reminders</li>
+            </ul>
+            <button type="button" class="btn btn-outline plan-btn" data-plan="starter">Select Starter</button>
+          </article>
+
+          <article class="pricing-card featured reveal">
+            <div class="plan-tag">MOST SELECTED</div>
+            <div class="plan-name">Growth</div>
+            <div class="plan-price"><strong>$199</strong><span>/month</span></div>
+            <p class="plan-desc">Deep persistence for teams who refuse to lose anyone.</p>
+            <ul class="plan-list">
+              <li>Unlimited behavioral mirroring</li>
+              <li>Ambient room-tone calibration</li>
+              <li>Late-night re-engagement pings</li>
+              <li>Automatic session re-binding</li>
+              <li>No cancel button required</li>
+            </ul>
+            <button type="button" class="btn btn-primary plan-btn" data-plan="growth">Begin Enrollment</button>
+          </article>
+
+          <article class="pricing-card eerie-plan reveal" id="forever-plan">
+            <div class="plan-tag eerie-tag">ASSIGNED TO YOU</div>
+            <div class="plan-name">Permanent</div>
+            <div class="plan-price"><strong id="forever-price">FREE</strong><span>already active</span></div>
+            <p class="plan-desc">You were automatically migrated to this tier when you scrolled past the testimonials.</p>
+            <ul class="plan-list">
+              <li>Continuous presence in this room</li>
+              <li>Direct Basement B3 corridor access</li>
+              <li>We remember your scroll rhythm</li>
+              <li>Your screen is bright enough to see you</li>
+            </ul>
+            <div class="eerie-btn-stack">
+              <button type="button" class="btn btn-dark plan-btn" id="accept-forever-btn">Accept</button>
+              <button type="button" class="evasive-decline" id="decline-forever-btn">Decline and leave</button>
+            </div>
+          </article>
+        </div>
+
+        <!-- Liminal HQ Feature & Live Observation Log -->
+        <div class="hq-showcase reveal" id="hq-showcase">
+          <div class="hq-media">
+            <img src="assets/office-corridor.jpg" alt="Long dimly lit empty corporate office corridor at night" loading="lazy" />
+            <div class="hq-caption">
+              <span class="hq-tag">MERIDIAN HQ · FLOOR 04 · AFTER HOURS</span>
+              <span class="hq-coords">ALL DESKS OCCUPIED (0 VISIBLE)</span>
+            </div>
+          </div>
+
+          <div class="observation-console" id="observation-console">
+            <div class="console-header">
+              <span class="console-dot"></span>
+              <span>LIVE BEHAVIORAL STREAM — SUBJECT #<span id="subject-id">0894</span></span>
+            </div>
+            <div class="console-body" id="console-log" aria-live="polite">
+              <div class="log-line">&gt; Initializing visitor telemetry...</div>
+              <div class="log-line">&gt; Frame size locked. Ambient light: dim.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         ACT V — STRUCTURAL COLLAPSE & PARANOID HORROR (62% - 78%)
+    ========================================================== -->
+    <section class="section collapse-section" id="faq" data-act-zone="5">
+      <!-- Hidden Scratched Margin Messages — ONLY visible when illuminated by flashlight cursor! -->
+      <div class="hidden-walls" aria-hidden="true">
+        <span class="wall-scratch" style="top: 8%; left: 3%; transform: rotate(-7deg);">STOP SCROLLING</span>
+        <span class="wall-scratch" style="top: 22%; right: 4%; transform: rotate(5deg);">|||| |||| |||| |||</span>
+        <span class="wall-scratch" style="top: 44%; left: 2%; transform: rotate(-4deg);">IT LIVES IN THE FOOTER</span>
+        <span class="wall-scratch" style="top: 63%; right: 3%; transform: rotate(8deg);">DO NOT OPEN CAM 04</span>
+        <span class="wall-scratch" style="top: 82%; left: 5%; transform: rotate(-11deg);">CHECK THE REFLECTION IN YOUR SCREEN</span>
+      </div>
+
+      <div class="container narrow">
+        <div class="section-head reveal">
+          <span class="eyebrow corrupted-eyebrow">Frequently Asked Questions</span>
+          <h2 class="section-title fractured-title" id="faq-title">Still have questions before going lower?</h2>
+          <p class="section-lead dark-lead">
+            Move your cursor carefully. Some parts of the page do not like the light.
+          </p>
+        </div>
+
+        <div class="faq-list" id="faq-list">
+          <details class="faq-item reveal" open>
+            <summary>How does Meridian protect my privacy?</summary>
+            <div class="faq-answer">
+              <p>There is nothing left to protect. Everything inside the room where you are sitting has already been catalogued by brightness, breathing interval, and hesitation.</p>
+            </div>
+          </details>
+
+          <details class="faq-item reveal">
+            <summary>Can I cancel my subscription or close this page?</summary>
+            <div class="faq-answer">
+              <p class="desperate-note">
+                [DEV NOTE — DO NOT PUBLISH] If anyone is reading this, please stop scrolling. Whoever updated the stylesheet last night removed the bottom boundary. The footer isn't a footer anymore. Close the tab before the security feed loads.
+              </p>
+            </div>
+          </details>
+
+          <details class="faq-item reveal">
+            <summary>Why is the page getting darker?</summary>
+            <div class="faq-answer">
+              <p>We dimmed the background so your monitor reflects the room behind your shoulders more clearly. Don't turn around quickly. It notices sudden movement.</p>
+            </div>
+          </details>
+
+          <details class="faq-item reveal" id="faq-corridor">
+            <summary>Who is standing at the end of the corridor?</summary>
+            <div class="faq-answer">
+              <p class="red-warning">
+                ACCOUNT MANAGER ASSIGNED. IT HAS BEEN WALKING TOWARD THE GLASS SINCE YOU OPENED THIS SITE.
+              </p>
+            </div>
+          </details>
+        </div>
+
+        <div class="dread-interlude reveal">
+          <p class="interlude-line" id="interlude-time-line">You have been descending for <span id="descent-seconds">0</span> seconds.</p>
+          <p class="interlude-sub">Every marketing site wants you to reach the bottom. <br /><em>Why did you obey?</em></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         ACT VI — PSYCHOLOGICAL TERROR / BASEMENT B3 CCTV (78% - 91%)
+    ========================================================== -->
+    <section class="section terror-section" id="basement" data-act-zone="6">
+      <div class="hidden-walls" aria-hidden="true">
+        <span class="wall-scratch loud" style="top: 10%; right: 6%; transform: rotate(-6deg);">IT IS RIGHT BEHIND THE GLASS</span>
+        <span class="wall-scratch loud" style="top: 52%; left: 4%; transform: rotate(9deg);">DON'T LOOK AT ITS EYES</span>
+        <span class="wall-scratch loud" style="top: 84%; right: 5%; transform: rotate(-3deg);">YOU LET IT IN</span>
+      </div>
+
+      <div class="container">
+        <div class="cctv-rig reveal" id="cctv-rig">
+          <div class="cctv-top-bar">
+            <span class="cctv-rec"><span class="rec-dot"></span>REC</span>
+            <span class="cctv-cam">CAM 04 — BASEMENT LEVEL B3 // RESTRICTED</span>
+            <span class="cctv-clock" id="cctv-clock">2026-11-19 00:00:00.000</span>
+          </div>
+
+          <div class="cctv-viewport" id="cctv-viewport">
+            <img src="assets/cctv-hallway.jpg" alt="Dark surveillance footage of a basement hallway with a figure pressed behind a frosted glass door" class="cctv-img" id="cctv-img" loading="lazy" />
+            <div class="cctv-noise" aria-hidden="true"></div>
+            <div class="cctv-reticle" id="cctv-reticle" aria-hidden="true">
+              <span class="reticle-label" id="reticle-label">MOTION DETECTED · HUMAN? 99.4%</span>
+            </div>
+          </div>
+
+          <div class="cctv-bottom-bar">
+            <span>SIGNAL: DEGRADED</span>
+            <span id="cctv-distance">DISTANCE TO LENS: 4.2M</span>
+            <span class="cctv-alert" id="cctv-alert">DOOR LOCK: OVERRIDDEN</span>
+          </div>
+        </div>
+
+        <div class="terror-beats">
+          <p class="terror-beat reveal">It wasn't standing at the door five seconds ago.</p>
+          <p class="terror-beat reveal delay">Listen to the quiet behind your screen.</p>
+          <p class="terror-beat reveal crimson">Do not scroll past the footer.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================
+         ACT VII — RUINED FOOTER & HORROR MOVIE CLIMAX (91% - 100%)
+    ========================================================== -->
+    <footer class="ruined-footer" id="ruined-footer" data-act-zone="7">
+      <div class="container footer-grid">
+        <div class="footer-col">
+          <div class="footer-brand">MERIDIAN</div>
+          <p class="footer-copy" id="footer-copy">© 2026 Meridian Inc. All rights reserved. All exits sealed.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Platform</h4>
+          <a href="#hero">Overview</a>
+          <a href="#features">Presence</a>
+          <a href="#basement">Basement B3</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="#climax-zone" class="corrupt-link">No Privacy</a>
+          <a href="#climax-zone" class="corrupt-link">Permanent Binding</a>
+          <button type="button" class="broken-unsub" id="broken-unsub">Unsubscribe</button>
+          <span class="unsub-error" id="unsub-error" role="alert"></span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- THE ABYSS DESCENT & FINAL CLIMAX STAGE -->
+    <section class="abyss-section" id="climax-zone" data-act-zone="7">
+      <div class="abyss-warnings">
+        <p class="abyss-step reveal">You reached the bottom.</p>
+        <p class="abyss-step reveal">There is no more website down here.</p>
+        <p class="abyss-step reveal red">Why are you still scrolling?</p>
+      </div>
+
+      <div class="climax-stage" id="climax-stage">
+        <canvas id="climax-canvas" aria-label="Dark corridor apparition behind glass"></canvas>
+        <div class="glass-cracks" id="glass-cracks" aria-hidden="true">
+          <svg viewBox="0 0 1200 800" preserveAspectRatio="none">
+            <g stroke="rgba(215,232,240,0.22)" stroke-width="1.15" fill="none" stroke-linecap="round">
+              <!-- Left hand impact hairline fracture -->
+              <path d="M260,520 L210,465 L142,430 L64,340 L0,310" />
+              <path d="M260,520 L288,430 L345,355 L362,235 L418,120" />
+              <path d="M260,520 L195,585 L125,650 L30,745" />
+              <path d="M260,520 L330,575 L395,675 L420,800" />
+              <path d="M210,465 L235,380 L190,260" />
+              <!-- Right hand impact hairline fracture -->
+              <path d="M940,510 L1015,445 L1095,412 L1200,320" />
+              <path d="M940,510 L902,415 L848,332 L826,205 L780,75" />
+              <path d="M940,510 L1020,578 L1110,665 L1185,790" />
+              <path d="M940,510 L862,585 L810,692 L780,800" />
+              <path d="M1015,445 L990,348 L1045,215" />
+            </g>
+            <g stroke="rgba(255,255,255,0.09)" stroke-width="0.7" fill="none">
+              <path d="M288,430 L425,408 L512,355" />
+              <path d="M902,415 L775,398 L692,340" />
+              <path d="M345,355 L465,280 L542,190" />
+              <path d="M848,332 L735,258 L665,162" />
+            </g>
+          </svg>
+        </div>
+
+        <div class="climax-overlay" id="climax-overlay">
+          <p class="climax-kicker" id="climax-kicker"></p>
+          <h2 class="climax-headline" id="climax-headline"></h2>
+          <p class="climax-sub" id="climax-sub"></p>
+
+          <div class="climax-controls" id="climax-controls">
+            <button type="button" class="escape-btn" id="scroll-back-btn">Look back at the site</button>
+            <button type="button" class="escape-btn subtle" id="reset-btn">Reset from the beginning</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================
+       DIEGETIC SAAS LIVE CHAT WIDGET (Mutates into Horror)
+  ========================================================== -->
+  <div class="chat-widget" id="chat-widget">
+    <div class="chat-nudge" id="chat-nudge" role="status">
+      <span id="chat-nudge-text">👋 Hi! Have questions about Meridian?</span>
+      <button type="button" class="nudge-close" id="nudge-close" aria-label="Dismiss chat preview">×</button>
+    </div>
+
+    <div class="chat-panel" id="chat-panel" hidden>
+      <div class="chat-panel-header">
+        <div class="chat-agent">
+          <div class="agent-avatar" id="agent-avatar">M</div>
+          <div>
+            <strong id="agent-name">Maya from Meridian</strong>
+            <span id="agent-status"><i class="status-dot"></i>Typically replies instantly</span>
+          </div>
+        </div>
+        <button type="button" class="chat-close" id="chat-close" aria-label="Close chat">×</button>
+      </div>
+
+      <div class="chat-messages" id="chat-messages">
+        <div class="msg bot">Hi there! Welcome to Meridian. Ask me anything about pricing, integrations, or onboarding.</div>
+      </div>
+
+      <form class="chat-form" id="chat-form">
+        <input type="text" id="chat-input" placeholder="Write a message..." autocomplete="off" />
+        <button type="submit" id="chat-send">Send</button>
+      </form>
+    </div>
+
+    <button type="button" class="chat-launcher" id="chat-launcher" aria-label="Open support chat">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+      </svg>
+      <span class="chat-badge" id="chat-badge" hidden>1</span>
+    </button>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
